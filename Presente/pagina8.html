@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Página 8 ❤️</title>
+
+  <style>
+
+    body{
+      margin:0;
+      width:100vw;
+      height:100vh;
+
+      overflow:hidden;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      background-image:url('./kor.jpg');
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+
+      font-family:Arial;
+
+      position:relative;
+    }
+
+    .box{
+      width:90%;
+      max-width:420px;
+      position:relative;
+    }
+
+    video{
+      width:100%;
+      border-radius:20px;
+      box-shadow:0 0 20px rgba(0,0,0,0.4);
+    }
+
+    /* TEXTO */
+    .texto{
+      position:absolute;
+
+      bottom:-60px;
+
+      left:50%;
+      transform:translateX(-50%);
+
+      color:white;
+
+      font-size:20px;
+
+      font-weight:bold;
+
+      text-shadow:0 0 10px black;
+
+      animation: piscar 1s infinite;
+
+      text-align:center;
+
+      display:none;
+    }
+
+    @keyframes piscar{
+      0%{opacity:1;}
+      50%{opacity:0;}
+      100%{opacity:1;}
+    }
+    #somBtn{
+  position:fixed;
+  top:15px;
+  right:15px;
+
+  z-index:9999;
+
+  background:rgba(0,0,0,0.5);
+  color:white;
+
+  border:none;
+  border-radius:10px;
+
+  padding:10px;
+
+  font-size:18px;
+
+  cursor:pointer;
+}
+
+  </style>
+  
+</head>
+<body>
+
+<body>
+
+  <div class="box">
+
+    <video autoplay loop playsinline>
+      <source src="./video1.mp4" type="video/mp4">
+    </video>
+
+    <div class="texto" id="texto">
+      Clica na tela pra continuar ❤️
+    </div>
+
+  </div>
+
+  <script>
+
+    let liberado = false;
+
+    setTimeout(() => {
+      document.getElementById("texto").style.display = "block";
+      liberado = true;
+    }, 6000);
+
+    function irProxima(){
+      if(liberado){
+        window.location.href = "pagina9.html";
+      }
+    }
+
+    document.body.addEventListener("click", irProxima);
+
+  </script>
+
+</body>
+</html>

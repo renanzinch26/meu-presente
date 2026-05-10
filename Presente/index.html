@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presente ❤️</title>
+
+  <style>
+    body{
+      margin:0;
+      width:100vw;
+      height:100vh;
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      position:relative;
+      background-image:url('./kor.jpg');
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      font-family:Arial;
+    }
+
+    /* TELA SENHA */
+    .senha-tela{
+      position:absolute;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.85);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:999;
+    }
+
+    .senha-box{
+      background:white;
+      padding:30px;
+      border-radius:25px;
+      width:80%;
+      max-width:300px;
+      text-align:center;
+    }
+
+    .senha-box h2{
+      margin-top:0;
+    }
+
+    .senha-box input{
+      width:100%;
+      padding:15px;
+      border-radius:15px;
+      border:none;
+      background:#f0f0f0;
+      margin-top:15px;
+      font-size:18px;
+      box-sizing:border-box;
+    }
+
+    .senha-box button{
+      margin-top:20px;
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:15px;
+      background:blue;
+      color:white;
+      font-size:18px;
+      cursor:pointer;
+    }
+
+    #erro{
+      color:red;
+      margin-top:10px;
+      font-size:16px;
+    }
+
+    .conteudo{
+      display:none;
+    }
+
+    /* GATO CENTRALIZADO */
+    .botao-gato{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:-300px;
+      border:none;
+      background:none;
+      cursor:pointer;
+      z-index:2;
+      animation: subirGato 2s ease-out forwards;
+    }
+
+    .gato{
+      width:250px;
+      display:block;
+    }
+
+    @keyframes subirGato{
+      0%{
+        bottom:-300px;
+        left:50%;
+        transform:translateX(-50%);
+        opacity:0;
+      }
+
+      100%{
+        bottom:20%;
+        left:50%;
+        transform:translateX(-50%);
+        opacity:1;
+      }
+    }
+
+    /* PLACA CENTRALIZADA */
+    .placa{
+      width:220px;
+      position:absolute;
+      top:-300px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:3;
+      animation:girarPlaca 2.5s ease-out forwards;
+      transform-origin:center;
+    }
+
+    @keyframes girarPlaca{
+      0%{
+        top:-300px;
+        transform:translateX(-50%) rotate(0deg);
+        opacity:0;
+      }
+
+      70%{
+        transform:translateX(-50%) rotate(720deg);
+        opacity:1;
+      }
+
+      100%{
+        top:18%;
+        left:50%;
+        transform:translateX(-50%) rotate(0deg);
+        opacity:1;
+      }
+    }
+
+    #somBtn{
+  position:fixed;
+  top:15px;
+  right:15px;
+
+  z-index:9999;
+
+  background:rgba(0,0,0,0.5);
+  color:white;
+
+  border:none;
+  border-radius:10px;
+
+  padding:10px;
+
+  font-size:18px;
+
+  cursor:pointer;
+}
+
+  </style>
+</head>
+<body>
+  <audio id="musica" loop>
+  <source src="./musica.mp3" type="audio/mp3">
+</audio>
+<button id="somBtn" onclick="toggleSom()">🔊</button>
+
+<div class="senha-tela" id="senhaTela">
+  <div class="senha-box">
+
+    <h2>Bota a senha ai xubiruba</h2>
+
+    <input type="password" id="senha">
+
+    <p id="erro"></p>
+
+    <button onclick="verificarSenha()">
+      Entrar
+    </button>
+
+  </div>
+</div>
+
+<div class="conteudo" id="conteudo">
+
+  <button class="botao-gato" onclick="irParaPagina()">
+    <img class="gato" src="./gatito.png">
+  </button>
+
+  <img class="placa" src="./placa.png">
+
+</div>
+
+<script>
+
+const senhaCorreta = "binomiodenewton";
+
+const mensagensErro = [
+  "Errou a senha amor",
+  "Hmmm... tenta de novo 👀",
+  "Você realmente me ama? 😭",
+  "pensa longe mo",
+  "Errrrrrrou 😅",
+  "Dica: você sabe a resposta 😌",
+  "Tai a dica final: qual foi a primeira coisa que eu falei pra voce?"
+];
+
+let tentativa = 0;
+
+function verificarSenha(){
+
+  const senha = document.getElementById("senha").value;
+
+  if(senha === senhaCorreta){
+
+    document.getElementById("senhaTela").style.display = "none";
+    document.getElementById("conteudo").style.display = "block";
+   localStorage.setItem("liberouMusica", "true");
+iniciarMusica();
+
+  }else{
+
+    document.getElementById("erro").innerText =
+    mensagensErro[tentativa];
+
+    tentativa++;
+
+    if(tentativa >= mensagensErro.length){
+      tentativa = 0;
+    }
+
+  }
+}
+
+function irParaPagina(){
+  window.location.href = "pagina2.html";
+}
+
+let musica;
+let btn;
+
+/* INICIALIZA TUDO DEPOIS QUE A PÁGINA CARREGA */
+window.addEventListener("load", () => {
+
+  musica = document.getElementById("musica");
+  btn = document.getElementById("somBtn");
+
+  /* RESTAURAR TEMPO */
+  const tempoSalvo = localStorage.getItem("tempoMusica");
+
+  if(tempoSalvo && musica){
+    musica.currentTime = parseFloat(tempoSalvo);
+  }
+
+});
+
+/* SALVAR POSIÇÃO */
+setInterval(() => {
+  if(musica && !musica.paused){
+    localStorage.setItem("tempoMusica", musica.currentTime);
+  }
+}, 500);
+
+/* INICIAR MÚSICA */
+function iniciarMusica(){
+
+  if(!musica) return;
+
+  musica.volume = 1;
+
+  musica.play().catch(() => {});
+
+}
+
+/* TOGGLE SOM */
+function toggleSom(){
+
+  if(!musica) return;
+
+  if(musica.paused){
+    musica.play();
+    btn.innerText = "🔊";
+  }else{
+    musica.pause();
+    btn.innerText = "🔇";
+  }
+
+}
+
+</script>
+</body>
+</html>
